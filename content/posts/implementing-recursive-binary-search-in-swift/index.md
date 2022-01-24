@@ -6,8 +6,8 @@ draft: false
 author: "Kelvin"
 description: "How to Implement a recursive binary search algorithm in Swift."
 resources:
-- name: "featured-image"
-  src: "recursive-binary-search.png"
+  - name: "featured-image"
+    src: "recursive-binary-search.png"
 tags: ["Swift", "Algorithms"]
 categories: ["Articles"]
 

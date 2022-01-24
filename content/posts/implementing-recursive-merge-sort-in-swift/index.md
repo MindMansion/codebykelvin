@@ -5,9 +5,10 @@ lastmod: 2022-01-10T16:45:40+08:00
 draft: false
 author: "Kelvin"
 description: "Understanding and Implementing the merge sort algorithm recursively in Swift."
+
 resources:
-- name: "featured-image"
-  src: "merge-sort-img.png"
+  - name: "featured-image"
+    src: "merge-sort-img.png"
 
 tags: ["Swift", "Algorithms"]
 categories: ["Articles"]
