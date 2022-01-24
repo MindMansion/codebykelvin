@@ -1,0 +1,34 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Basic - Tag - Code By Kelvin</title>
+        <link>http://example.org/tags/basic/</link>
+        <description>Basic - Tag - Code By Kelvin</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 11 Dec 2021 21:57:40 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/basic/" rel="self" type="application/rss+xml" /><item>
+    <title>How to sum and reduce array elements in Swift</title>
+    <link>http://example.org/posts/how-to-sum-and-reduce-array-elements-in-swift/</link>
+    <pubDate>Sat, 11 Dec 2021 21:57:40 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/posts/how-to-sum-and-reduce-array-elements-in-swift/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="/learning-swift.png" referrerpolicy="no-referrer">
+            </div>How to quickly reduce your swift array to a single value.]]></description>
+</item><item>
+    <title>How to find index of an array element in Swift</title>
+    <link>http://example.org/posts/how-to-find-index-of-an-array-element-in-swift/</link>
+    <pubDate>Wed, 01 Dec 2021 21:57:40 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/posts/how-to-find-index-of-an-array-element-in-swift/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="/learning-swift.png" referrerpolicy="no-referrer">
+            </div>How to find the index of array element in Swift.]]></description>
+</item><item>
+    <title>How to quickly generate array in Swift</title>
+    <link>http://example.org/posts/simple-swift-array-generator/</link>
+    <pubDate>Wed, 01 Dec 2021 21:57:40 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/posts/simple-swift-array-generator/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="/learning-swift.png" referrerpolicy="no-referrer">
+            </div>How to quickly generate an array of any type in Swift.]]></description>
+</item></channel>
+</rss>

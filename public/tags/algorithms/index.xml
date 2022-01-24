@@ -1,0 +1,28 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Algorithms - Tag - Code By Kelvin</title>
+        <link>http://example.org/tags/algorithms/</link>
+        <description>Algorithms - Tag - Code By Kelvin</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 14 Dec 2021 21:57:40 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/algorithms/" rel="self" type="application/rss+xml" /><item>
+    <title>Understanding and implementing recursive binary search in swift</title>
+    <link>http://example.org/posts/implementing-recursive-binary-search-in-swift/</link>
+    <pubDate>Tue, 14 Dec 2021 21:57:40 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/posts/implementing-recursive-binary-search-in-swift/</guid>
+    <description><![CDATA[How to Implement a recursive binary search algorithm in Swift.]]></description>
+</item><item>
+    <title>Implementing recursive merge sort in swift</title>
+    <link>http://example.org/posts/implementing-recursive-merge-sort-in-swift/</link>
+    <pubDate>Fri, 10 Dec 2021 21:57:40 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/posts/implementing-recursive-merge-sort-in-swift/</guid>
+    <description><![CDATA[Understanding and Implementing the merge sort algorithm recursively in Swift.]]></description>
+</item><item>
+    <title>Understanding and implementing binary search in swift</title>
+    <link>http://example.org/posts/implementing-binary-search-in-swift/</link>
+    <pubDate>Wed, 01 Dec 2021 21:57:40 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/posts/implementing-binary-search-in-swift/</guid>
+    <description><![CDATA[How to Implement a binary search algorithm in Swift | a divider and conquer algorithm]]></description>
+</item></channel>
+</rss>

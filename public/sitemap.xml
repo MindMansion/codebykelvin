@@ -1,0 +1,18 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    ><url>
+            <loc>http://example.org/tags/algorithms/</loc><lastmod>2022-01-10T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/categories/articles/</loc><lastmod>2022-01-10T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/categories/</loc><lastmod>2022-01-10T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/</loc><lastmod>2022-01-10T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/posts/</loc><lastmod>2022-01-10T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/tags/swift/</loc><lastmod>2022-01-10T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/tags/</loc><lastmod>2022-01-10T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/posts/implementing-recursive-binary-search-in-swift/</loc><lastmod>2022-01-01T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/tags/basic/</loc><lastmod>2022-01-01T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/posts/how-to-sum-and-reduce-array-elements-in-swift/</loc><lastmod>2022-01-01T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/posts/implementing-recursive-merge-sort-in-swift/</loc><lastmod>2022-01-10T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/posts/how-to-find-index-of-an-array-element-in-swift/</loc><lastmod>2022-01-01T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/posts/simple-swift-array-generator/</loc><lastmod>2022-01-01T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>http://example.org/posts/implementing-binary-search-in-swift/</loc><lastmod>2022-01-01T16:45:40&#43;08:00</lastmod></url></urlset>

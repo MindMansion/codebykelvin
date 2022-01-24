@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Implementing recursive merge sort in swift - Code By Kelvin</title><meta name="Description" content="Understanding and Implementing the merge sort algorithm recursively in Swift."><meta property="og:title" content="Implementing recursive merge sort in swift" />
+<meta property="og:description" content="Understanding and Implementing the merge sort algorithm recursively in Swift." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/implementing-recursive-merge-sort-in-swift/" /><meta property="og:image" content="http://example.org/posts/implementing-recursive-merge-sort-in-swift/merge-sort-img.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-12-10T21:57:40+08:00" />
+<meta property="article:modified_time" content="2022-01-10T16:45:40+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/posts/implementing-recursive-merge-sort-in-swift/merge-sort-img.png"/>
+<meta name="twitter:title" content="Implementing recursive merge sort in swift"/>
+<meta name="twitter:description" content="Understanding and Implementing the merge sort algorithm recursively in Swift."/>
+<meta name="application-name" content="CodeByKelvin">
+<meta name="apple-mobile-web-app-title" content="CodeByKelvin"><meta name="theme-color" content="#"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/posts/implementing-recursive-merge-sort-in-swift/" /><link rel="prev" href="http://example.org/posts/how-to-find-index-of-an-array-element-in-swift/" /><link rel="next" href="http://example.org/posts/how-to-sum-and-reduce-array-elements-in-swift/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Implementing recursive merge sort in swift",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/posts\/implementing-recursive-merge-sort-in-swift\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/example.org\/posts\/implementing-recursive-merge-sort-in-swift\/merge-sort-img.png",
+                            "width":  711 ,
+                            "height":  400 
+                        }],"genre": "posts","keywords": "Swift, Algorithms","wordcount":  968 ,
+        "url": "http:\/\/example.org\/posts\/implementing-recursive-merge-sort-in-swift\/","datePublished": "2021-12-10T21:57:40+08:00","dateModified": "2022-01-10T16:45:40+08:00","publisher": {
+            "@type": "Organization",
+            "name": "Kelvin"},"author": {
+                "@type": "Person",
+                "name": "Kelvin"
+            },"description": "Understanding and Implementing the merge sort algorithm recursively in Swift."
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Code By Kelvin"><span class="header-title-pre"><i class='fab fa-think-peaks'></i></span>CBK</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Code By Kelvin"><span class="header-title-pre"><i class='fab fa-think-peaks'></i></span>CBK</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Implementing recursive merge sort in swift</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Kelvin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/articles/"><i class="far fa-folder fa-fw"></i>Articles</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-12-10">2021-12-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;968 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/implementing-recursive-merge-sort-in-swift/merge-sort-img.png"
+        data-srcset="/posts/implementing-recursive-merge-sort-in-swift/merge-sort-img.png, /posts/implementing-recursive-merge-sort-in-swift/merge-sort-img.png 1.5x, /posts/implementing-recursive-merge-sort-in-swift/merge-sort-img.png 2x"
+        data-sizes="auto"
+        alt="/posts/implementing-recursive-merge-sort-in-swift/merge-sort-img.png"
+        title="Understanding and Implementing the merge sort algorithm recursively in Swift." /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-a-mergesort-algorithm">What is a Mergesort algorithm?</a>
+      <ul>
+        <li><a href="#how-it-works">How it works</a>
+          <ul>
+            <li><a href="#example">Example</a></li>
+          </ul>
+        </li>
+        <li><a href="#mergesort">MergeSort</a>
+          <ul>
+            <li><a href="#1-splitting-process-function">1. Splitting process function</a>
+              <ul>
+                <li><a href="#state-variables">State variables</a></li>
+                <li><a href="#base-case">Base case</a></li>
+                <li><a href="#splitting-the-items-list">Splitting the items list</a></li>
+              </ul>
+            </li>
+            <li><a href="#2-the-merge-function">2. The merge function</a>
+              <ul>
+                <li><a href="#sorting-and-merging">Sorting and merging</a></li>
+                <li><a href="#copying-from-leftitems">Copying from leftItems</a></li>
+                <li><a href="#copying-from-rightitems">Copying from rightItems</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#testing-the-function">Testing the function</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="what-is-a-mergesort-algorithm">What is a Mergesort algorithm?</h2>
+<p>The <strong>mergesort</strong> algorithm is one of the popular and efficient divide and
+conquer algorithms in computer science, and it is used for sorting a list of items.</p>
+<p>While there are a few different <strong>mergesort</strong> algorithm functions, I will be discussing
+the <code>top-down method</code> in this article.</p>
+<h3 id="how-it-works">How it works</h3>
+<p>Mergesort is a sorting algorithm that uses a divide and conquer method to sort a list, by recursively
+dividing the list into two equal sizes commonly named <code>left</code> and <code>right</code> and it continues
+to <code>(apply the same logic)</code> each side of the division until only one item is remaining.
+After the divisions it will then proceed to sort and merge each of the sides back together again.</p>
+<h4 id="example">Example</h4>
+<p>In this example I will be showing you how to implement a merge sort algorithm in Swift,
+we will be using the merge sort to sort a list of random numbers.</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Note<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">From the illustration above and explanation of the algorithm, we can see that we have
+three important aspect of the merge sort, the <code>splitting process</code>, <code>sorting process</code>,
+and the <code>merging process</code></div>
+        </div>
+    </div>
+<h3 id="mergesort">MergeSort</h3>
+<p>We are going to build and separate these machines (functions) away from each
+so that we can focus directly on what each machine needs to accomplish and build it.</p>
+<h4 id="1-splitting-process-function">1. Splitting process function</h4>
+<p>This function will be in charge of splitting the items and returning a sorted
+version of the items.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">mergeSort</span><span class="p">(</span><span class="k">for</span> <span class="n">items</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">])</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nv">leftItems</span><span class="p">:[</span><span class="nb">Int</span><span class="p">]</span>
+  <span class="kd">var</span> <span class="nv">rightItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span>
+  <span class="kd">var</span> <span class="nv">result</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span>
+
+  <span class="kd">let</span> <span class="nv">length</span> <span class="p">=</span> <span class="n">items</span><span class="p">.</span><span class="bp">count</span>
+<span class="p">}</span>
+</code></pre></div><h5 id="state-variables">State variables</h5>
+<p>Below are the explanation to the new variable we have just introduced in the function.</p>
+<ul>
+<li><strong>leftItems</strong>: We are using it to store the state of each left item of a division</li>
+<li><strong>rightItems</strong>: We are also using it to store the state of each right division</li>
+<li><strong>result</strong>: Use for storing the result of each  <code>sort and merge operation</code></li>
+<li><strong>length</strong>: Used for tracking the size of each side of the division</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">mergeSort</span><span class="p">(</span><span class="k">for</span> <span class="n">items</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">])</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nv">leftItems</span><span class="p">:[</span><span class="nb">Int</span><span class="p">]</span>
+  <span class="kd">var</span> <span class="nv">rightItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span>
+  <span class="kd">var</span> <span class="nv">result</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span>
+
+  <span class="kd">let</span> <span class="nv">length</span> <span class="p">=</span> <span class="n">items</span><span class="p">.</span><span class="bp">count</span>
+  
+  <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="p">{</span>
+      <span class="n">result</span> <span class="p">=</span> <span class="n">items</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h5 id="base-case">Base case</h5>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw"></i>Example<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="k">if</span> <span class="n">length</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="p">{</span>
+    <span class="n">result</span> <span class="p">=</span> <span class="n">items</span>
+<span class="p">}</span>
+</code></pre></div></div>
+        </div>
+    </div>
+<p>checks if the size of items (the list) <code>is less than or equal to 1</code> return from the function
+and quit further splitting. Obviously there would be nothing else to split at
+this point.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">mergeSort</span><span class="p">(</span><span class="k">for</span> <span class="n">items</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">])</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nv">leftItems</span><span class="p">:[</span><span class="nb">Int</span><span class="p">]</span>
+  <span class="kd">var</span> <span class="nv">rightItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span>
+  <span class="kd">var</span> <span class="nv">result</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span>
+
+  <span class="kd">let</span> <span class="nv">length</span> <span class="p">=</span> <span class="n">items</span><span class="p">.</span><span class="bp">count</span>
+  
+  <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="p">{</span>
+      <span class="n">result</span> <span class="p">=</span> <span class="n">items</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">leftItems</span> <span class="p">=</span> <span class="nb">Array</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mf">0.</span><span class="p">.&lt;</span><span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
+      <span class="n">rightItems</span> <span class="p">=</span>  <span class="nb">Array</span><span class="p">(</span><span class="n">items</span><span class="p">[(</span><span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)..&lt;</span><span class="n">length</span><span class="p">])</span>
+      
+      <span class="n">result</span> <span class="p">=</span> <span class="n">merge</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">mergeSort</span><span class="p">(</span><span class="n">on</span><span class="p">:</span> <span class="n">leftItems</span><span class="p">),</span> <span class="n">and</span><span class="p">:</span> <span class="n">mergeSort</span><span class="p">(</span><span class="n">on</span><span class="p">:</span> <span class="n">rightItems</span><span class="p">))</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span>
+<span class="p">}</span>
+</code></pre></div><h5 id="splitting-the-items-list">Splitting the items list</h5>
+<p>We added an else statement, this will be in charge of splitting the list
+whenever the <code>(size)</code> length is greater than <code>1</code></p>
+<ul>
+<li><code>leftItems</code> and <code>rightItems</code>: Here we are initializing the leftItems to contain an
+<code>Array</code> of half size of the items list whenever the function calls itself.</li>
+<li><code>result</code>: The result, is initialized with result of calling the <code>merge</code> function
+that is in charge of sorting and merging each division of the items list.
+Though the <code>merge</code> function, is not yet implemented, and we will do that next.</li>
+</ul>
+<div class="details admonition tip open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>Tip<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Note that here we used the Swift Array subscript syntax to divide each
+list items and grab the half of it, instead of using a loop to iterate over
+the entire list items to grab the half of it.<br>
+i.e. items<code>[0..&lt; n/2]</code> will produce half of the items</div>
+        </div>
+    </div>
+<h4 id="2-the-merge-function">2. The merge function</h4>
+<p>This function accepts and two different lists <code>leftItems</code> and <code>rightItems</code> which are
+the left and right sides of items list division. The function will now compute
+and return the result of sorting and merging each list items.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">merge</span><span class="p">(</span><span class="k">for</span> <span class="n">leftItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">],</span> <span class="n">and</span> <span class="n">rightItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">])</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nv">result</span> <span class="p">=</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]()</span>
+  <span class="kd">var</span> <span class="nv">rightPosition</span> <span class="p">=</span> <span class="mi">0</span>
+  <span class="kd">var</span> <span class="nv">leftPosition</span> <span class="p">=</span> <span class="mi">0</span>
+<span class="p">}</span>
+</code></pre></div><ul>
+<li><code>result:</code> This will be used to store the result of sorting each item.</li>
+<li><code>rightPosition and leftPosition:</code> This is used to track the index of each list item starting from <code>0</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">merge</span><span class="p">(</span><span class="k">for</span> <span class="n">leftItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">],</span> <span class="n">and</span> <span class="n">rightItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">])</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nv">result</span> <span class="p">=</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]()</span>
+  <span class="kd">var</span> <span class="nv">rightPosition</span> <span class="p">=</span> <span class="mi">0</span>
+  <span class="kd">var</span> <span class="nv">leftPosition</span> <span class="p">=</span> <span class="mi">0</span>
+  
+  <span class="k">while</span> <span class="p">(</span><span class="n">leftPosition</span> <span class="o">&lt;</span> <span class="n">leftItems</span><span class="p">.</span><span class="bp">count</span> <span class="o">||</span> <span class="n">rightPosition</span> <span class="o">&lt;</span> <span class="n">rightItems</span><span class="p">.</span><span class="bp">count</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// more to come</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>Here we are checking for when either of the list size is greater than either of <code>positions</code>  index.
+It makes sense to only do something whenever we have items with size  <code>greater</code> than <code>1</code></p>
+<h5 id="sorting-and-merging">Sorting and merging</h5>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">merge</span><span class="p">(</span><span class="k">for</span> <span class="n">leftItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">],</span> <span class="n">and</span> <span class="n">rightItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">])</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nv">result</span> <span class="p">=</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]()</span>
+  <span class="kd">var</span> <span class="nv">rightPosition</span> <span class="p">=</span> <span class="mi">0</span>
+  <span class="kd">var</span> <span class="nv">leftPosition</span> <span class="p">=</span> <span class="mi">0</span>
+  
+  <span class="k">while</span> <span class="p">(</span><span class="n">leftPosition</span> <span class="o">&lt;</span> <span class="n">leftItems</span><span class="p">.</span><span class="bp">count</span> <span class="o">||</span> <span class="n">rightPosition</span> <span class="o">&lt;</span> <span class="n">rightItems</span><span class="p">.</span><span class="bp">count</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">leftPosition</span> <span class="o">&lt;</span> <span class="n">leftItems</span><span class="p">.</span><span class="bp">count</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">rightPosition</span> <span class="o">&gt;=</span> <span class="n">rightItems</span><span class="p">.</span><span class="bp">count</span> <span class="o">||</span> 
+        <span class="n">leftItems</span><span class="p">[</span><span class="n">leftPosition</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">rightItems</span><span class="p">[</span><span class="n">rightPosition</span><span class="p">]))</span> <span class="p">{</span>
+      
+      <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">leftItems</span><span class="p">[</span><span class="n">leftPosition</span><span class="p">])</span>
+      <span class="n">leftPosition</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h5 id="copying-from-leftitems">Copying from leftItems</h5>
+<p>Here we are copying from leftItems list only when the value in the leftItems list is
+smaller than the value in rightItems list <code>(rightPosition &gt;= rightItems.count || leftItems[leftPosition] &lt;= rightItems[rightPosition])</code>
+or when there are no items left in the rightItems. We then add increase the value of <code>lefPosition</code> by <code>1</code> after.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">merge</span><span class="p">(</span><span class="k">for</span> <span class="n">leftItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">],</span> <span class="n">and</span> <span class="n">rightItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">])</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nv">result</span> <span class="p">=</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]()</span>
+  <span class="kd">var</span> <span class="nv">rightPosition</span> <span class="p">=</span> <span class="mi">0</span>
+  <span class="kd">var</span> <span class="nv">leftPosition</span> <span class="p">=</span> <span class="mi">0</span>
+  
+  <span class="k">while</span> <span class="p">(</span><span class="n">leftPosition</span> <span class="o">&lt;</span> <span class="n">leftItems</span><span class="p">.</span><span class="bp">count</span> <span class="o">||</span> <span class="n">rightPosition</span> <span class="o">&lt;</span> <span class="n">rightItems</span><span class="p">.</span><span class="bp">count</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">leftPosition</span> <span class="o">&lt;</span> <span class="n">leftItems</span><span class="p">.</span><span class="bp">count</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">rightPosition</span> <span class="o">&gt;=</span> <span class="n">rightItems</span><span class="p">.</span><span class="bp">count</span> <span class="o">||</span>
+     <span class="n">leftItems</span><span class="p">[</span><span class="n">leftPosition</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">rightItems</span><span class="p">[</span><span class="n">rightPosition</span><span class="p">])){</span>
+        
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">leftItems</span><span class="p">[</span><span class="n">leftPosition</span><span class="p">])</span>
+        <span class="n">leftPosition</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">rightItems</span><span class="p">[</span><span class="n">rightPosition</span><span class="p">])</span>
+        <span class="n">rightPosition</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">result</span>
+<span class="p">}</span>
+</code></pre></div><h5 id="copying-from-rightitems">Copying from rightItems</h5>
+<p>Here we are copying from the right items whenever the if statement conditions fails.</p>
+<h2 id="testing-the-function">Testing the function</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">var</span> <span class="nv">myList</span> <span class="p">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">38</span><span class="p">]</span>
+<span class="kd">let</span> <span class="nv">sortedList</span> <span class="p">=</span> <span class="n">mergeSort</span><span class="p">(</span><span class="n">on</span><span class="p">:</span> <span class="n">myList</span><span class="p">)</span>
+
+<span class="bp">print</span><span class="p">(</span><span class="n">sortedList</span><span class="p">)</span>
+</code></pre></div><p>Output: <code>[5, 10, 12, 13, 18, 38]</code></p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-01-10</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/posts/implementing-recursive-merge-sort-in-swift/" data-title="Implementing recursive merge sort in swift" data-via="mindmansions" data-hashtags="Swift,Algorithms"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/posts/implementing-recursive-merge-sort-in-swift/" data-hashtag="Swift"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/posts/implementing-recursive-merge-sort-in-swift/" data-title="Implementing recursive merge sort in swift" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/posts/implementing-recursive-merge-sort-in-swift/" data-title="Implementing recursive merge sort in swift"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/swift/">Swift</a>,&nbsp;<a href="/tags/algorithms/">Algorithms</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/how-to-find-index-of-an-array-element-in-swift/" class="prev" rel="prev" title="How to find index of an array element in Swift"><i class="fas fa-angle-left fa-fw"></i>How to find index of an array element in Swift</a>
+            <a href="/posts/how-to-sum-and-reduce-array-elements-in-swift/" class="next" rel="next" title="How to sum and reduce array elements in Swift">How to sum and reduce array elements in Swift<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"><div style="font-size:17px; font-weight: 700">CodeByKelvin</div></div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="/" target="_blank">MindMansion Projects</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":30},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

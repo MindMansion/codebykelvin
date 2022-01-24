@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Understanding and implementing binary search in swift - Code By Kelvin</title><meta name="Description" content="How to Implement a binary search algorithm in Swift | a divider and conquer algorithm"><meta property="og:title" content="Understanding and implementing binary search in swift" />
+<meta property="og:description" content="How to Implement a binary search algorithm in Swift | a divider and conquer algorithm" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/implementing-binary-search-in-swift/" /><meta property="og:image" content="http://example.org/posts/implementing-binary-search-in-swift/binary-search.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-12-01T21:57:40+08:00" />
+<meta property="article:modified_time" content="2022-01-01T16:45:40+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/posts/implementing-binary-search-in-swift/binary-search.png"/>
+<meta name="twitter:title" content="Understanding and implementing binary search in swift"/>
+<meta name="twitter:description" content="How to Implement a binary search algorithm in Swift | a divider and conquer algorithm"/>
+<meta name="application-name" content="CodeByKelvin">
+<meta name="apple-mobile-web-app-title" content="CodeByKelvin"><meta name="theme-color" content="#"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/posts/implementing-binary-search-in-swift/" /><link rel="next" href="http://example.org/posts/simple-swift-array-generator/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Understanding and implementing binary search in swift",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/posts\/implementing-binary-search-in-swift\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/example.org\/posts\/implementing-binary-search-in-swift\/binary-search.png",
+                            "width":  711 ,
+                            "height":  400 
+                        }],"genre": "posts","keywords": "Swift, Algorithms","wordcount":  1494 ,
+        "url": "http:\/\/example.org\/posts\/implementing-binary-search-in-swift\/","datePublished": "2021-12-01T21:57:40+08:00","dateModified": "2022-01-01T16:45:40+08:00","publisher": {
+            "@type": "Organization",
+            "name": "Kelvin"},"author": {
+                "@type": "Person",
+                "name": "Kelvin"
+            },"description": "How to Implement a binary search algorithm in Swift | a divider and conquer algorithm"
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Code By Kelvin"><span class="header-title-pre"><i class='fab fa-think-peaks'></i></span>CBK</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Code By Kelvin"><span class="header-title-pre"><i class='fab fa-think-peaks'></i></span>CBK</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Understanding and implementing binary search in swift</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Kelvin</a></span>&nbsp;<span class="post-category">included in <a href="/categories/articles/"><i class="far fa-folder fa-fw"></i>Articles</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-12-01">2021-12-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1494 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/implementing-binary-search-in-swift/binary-search.png"
+        data-srcset="/posts/implementing-binary-search-in-swift/binary-search.png, /posts/implementing-binary-search-in-swift/binary-search.png 1.5x, /posts/implementing-binary-search-in-swift/binary-search.png 2x"
+        data-sizes="auto"
+        alt="/posts/implementing-binary-search-in-swift/binary-search.png"
+        title="How to Implement a binary search algorithm in Swift | a divider and conquer algorithm" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-problem">The Problem</a>
+      <ul>
+        <li><a href="#first-approach">First Approach</a>
+          <ul>
+            <li><a href="#problem-with-this-approach">Problem with this approach</a></li>
+          </ul>
+        </li>
+        <li><a href="#binary-search-approach">Binary search Approach</a>
+          <ul>
+            <li><a href="#how-it-works">How it works</a>
+              <ul>
+                <li><a href="#1-computed-the-middle-index">1. Computed the middle index</a></li>
+                <li><a href="#2-search-the-array-with-middle">2. Search the array with <code>middle</code></a></li>
+                <li><a href="#3-update-the-middle">3. Update the middle</a></li>
+                <li><a href="#4-apply-a-loop">4. Apply a loop</a></li>
+                <li><a href="#diagram">Diagram</a></li>
+              </ul>
+            </li>
+            <li><a href="#the-binary-search-function">The Binary search function</a>
+              <ul>
+                <li><a href="#testing-the-function">Testing the function</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">conclusion</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><strong>Binary search</strong> is a  <code>(divide and conquer)</code>  algorithm and one of the most popular and widely used algorithms for searching a
+data structure because of its efficiency and speed.</p>
+<p>I will be showing you how to implement a search algorithm using
+the binary search method, this method of searching is what is
+mostly used under the hood for <strong>Swift</strong> <code>standard library</code> API
+functions for searching items i.e.</p>
+<ul>
+<li>first(where: )</li>
+<li>last(where: )</li>
+<li>firstIndex(where: )</li>
+<li>lastIndex(where: )</li>
+</ul>
+<h2 id="the-problem">The Problem</h2>
+<p>Let&rsquo;s say we have an array of 12 random numbers and would like
+to find <code>30</code> from this list of numbers, but you don&rsquo;t know which
+<code>index</code> this favorite number of yours appears in the list.</p>
+<div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Question<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">To solve this problem start by asking how many times do I have to look inside this array of numbers before I
+can find my favorite number?</div>
+        </div>
+    </div>
+<h3 id="first-approach">First Approach</h3>
+<p>Given that you know how to use loops to traverse an array and print its element, you would think to combine a <code>for loop</code> and <code>if statement</code> on the list of numbers to find and print any index whose value is your favorite number <code>30</code>
+your solution might look like the code below.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">70</span><span class="p">]</span>
+<span class="kd">let</span> <span class="nv">myFavorite</span> <span class="p">=</span> <span class="mi">30</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">numbers</span><span class="p">.</span><span class="n">enumerated</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="p">==</span> <span class="n">myFavorite</span> <span class="p">{</span>
+        <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Index for favourite is: &#34;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>Output: <code>Index for favorite is: 9</code></p>
+<h4 id="problem-with-this-approach">Problem with this approach</h4>
+<p>While this might put a smile on your face knowing that you have successfully found the index of your favorite
+number, and you only had to look <code>10 times</code></p>
+<p>But think what if this list of numbers is <strong><em>10Billion</em></strong> in length, and your favorite number is at the very end of the
+list, woof! this would take 10Billion times to look inside the array of numbers, imagine if this was a person
+trying to individually look inside 10Billion boxes, that would take more than a lifetime to complete but of course
+computers are way faster than a human and would complete the task in a shorter amount of time compared to a
+human <code>but</code> longer than it took when the list was only <code>12 items</code>.</p>
+<p>This will make you unhappy especially when
+you need your favorite number as soon as possible and don&rsquo;t have time to wait for this 10Billion loop to complete.</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Good News!<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>Good news is that a <code>binary search</code> algorithm can help reduce your wait time to a significant amount but only
+with one requirement from you.</p>
+<blockquote>
+<p>The list of numbers must be <code>sorted</code> (arranged in order). Binary search can only work on a list that is sorted,
+so it is a requirement that your list of numbers must be sorted.</p>
+</blockquote>
+</div>
+        </div>
+    </div>
+<h3 id="binary-search-approach">Binary search Approach</h3>
+<p>Start by asking yourself how many times do I have to divide <strong><em>10Billion</em></strong> by 2 until the final answer is 0?.</p>
+<p>The solution is <code>34 times</code> which is not too many and definitely not 10Billion times.
+34 times is the worst case <code>(The longest wait time)</code> for a 10Billion list of numbers the maximum time we have
+to look inside the array to find our favorite number.</p>
+<h4 id="how-it-works">How it works</h4>
+<h5 id="1-computed-the-middle-index">1. Computed the middle index</h5>
+<p>Binary search works by first taking the total length of the array and divides it into two parts commonly known as
+<code>left</code> and <code>right</code> where <code>left</code> represents the first index of the array which is <code>0</code> and <code>right</code> represents the
+last index of the array which is <code>(n-1)</code> or <code>(numbers.count - 1)</code>. The outcome of this operation is called the <code>middle</code>
+and it represents the middle index of the array.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span> <span class="c1">//sorted</span>
+<span class="kd">var</span> <span class="nv">left</span> <span class="p">=</span> <span class="mi">0</span>
+<span class="kd">var</span> <span class="nv">right</span> <span class="p">=</span> <span class="n">numbers</span><span class="p">.</span><span class="bp">count</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="kd">var</span> <span class="nv">middle</span> <span class="p">=</span> <span class="p">(</span><span class="kr">left</span> <span class="o">+</span> <span class="kr">right</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</code></pre></div><h5 id="2-search-the-array-with-middle">2. Search the array with <code>middle</code></h5>
+<p>The next step is to take the computed value of the middle which is <code>5</code> in this case and look inside the numbers list
+for our favorite number using the <code>middle</code> as the index value.</p>
+<h5 id="3-update-the-middle">3. Update the middle</h5>
+<p>If the value in the middle index corresponds to our favorite number we return it, and we are done but if not we
+will check if the value in the middle index is bigger than our favorite number <code>(remember that our number is sorted)</code>
+if yes then there is no need to look at any index below our current middle index, which mean we are only concerned
+with the indexes above our current middle index which it to the <code>right</code> and we have just saved ourselves the huddles
+of looking it <code>4 boxes</code> that are to the left.</p>
+<p>Now that we have chosen <strong><code>NOT</code></strong> to look at the boxes below our middle index, we have to update the value of <code>left</code> because
+it is no longer 0 but now <code>middle + 1</code> the reason why we are adding <code>1</code> to the middle is that we have already looked
+into it, and it doesn&rsquo;t have our <code>favorite</code> number and there is no reason to include it again and vice versa.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">let</span> <span class="nv">myFavourite</span> <span class="p">=</span> <span class="mi">30</span>
+
+<span class="k">if</span> <span class="n">numbers</span><span class="p">[</span><span class="n">middle</span><span class="p">]</span> <span class="p">==</span> <span class="n">myFavourite</span> <span class="p">{</span>
+    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Yes Found! Your favourite number at index: </span><span class="si">\(</span><span class="n">middle</span><span class="si">)</span><span class="s"> </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="n">numbers</span><span class="p">[</span><span class="n">middle</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">myFavourite</span> <span class="p">{</span>
+    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;The middle index </span><span class="si">\(</span><span class="n">middle</span><span class="si">)</span><span class="s"> with value:  </span><span class="si">\(</span><span class="n">numbers</span><span class="p">[</span><span class="n">middle</span><span class="p">]</span><span class="si">)</span><span class="s"> is too small&#34;</span><span class="p">)</span>
+    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Please update left to: </span><span class="si">\(</span><span class="n">middle</span> <span class="o">+</span> <span class="mi">1</span><span class="si">)</span><span class="s"> </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;The middle index </span><span class="si">\(</span><span class="n">middle</span><span class="si">)</span><span class="s"> with value:  </span><span class="si">\(</span><span class="n">numbers</span><span class="p">[</span><span class="n">middle</span><span class="p">]</span><span class="si">)</span><span class="s"> is too large&#34;</span><span class="p">)</span>
+    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Please update right to: </span><span class="si">\(</span><span class="n">middle</span> <span class="o">-</span> <span class="mi">1</span><span class="si">)</span><span class="s"> </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>Output: <code>The middle index 5 with value: 20 is too small Please update left to: 6</code></p>
+<h5 id="4-apply-a-loop">4. Apply a loop</h5>
+<p>You might be thinking that now is the best time to bring it the <code>loop</code> and perform these operations, again and again,
+until the favorite number index is found and yes you&rsquo;re correct.</p>
+<p>Let&rsquo;s perform these operations inside a <code>loop</code> and update the value of the <code>middle</code> index inside the loop each time to
+loop runs until the runs are completed.</p>
+<p>The diagram below shows the steps our algorithm is going to perform until the loop life cycle is completed or
+our favorite number is found.</p>
+<h5 id="diagram">Diagram</h5>
+<div class="mermaid" id="id-1"></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span> <span class="c1">//sorted</span>
+<span class="kd">var</span> <span class="nv">left</span> <span class="p">=</span> <span class="mi">0</span>
+<span class="kd">var</span> <span class="nv">right</span> <span class="p">=</span> <span class="n">numbers</span><span class="p">.</span><span class="bp">count</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="kd">var</span> <span class="nv">middle</span> <span class="p">=</span> <span class="mi">0</span>
+
+<span class="k">while</span> <span class="kr">left</span> <span class="o">&lt;=</span> <span class="kr">right</span> <span class="p">{</span>
+    <span class="n">middle</span> <span class="p">=</span> <span class="p">(</span><span class="kr">left</span> <span class="o">+</span> <span class="kr">right</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    
+    <span class="k">if</span> <span class="n">numbers</span><span class="p">[</span><span class="n">middle</span><span class="p">]</span> <span class="p">==</span> <span class="n">myFavourite</span> <span class="p">{</span>
+        <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Found! Your favourite number at index: </span><span class="si">\(</span><span class="n">middle</span><span class="si">)</span><span class="s"> with value: </span><span class="si">\(</span><span class="n">numbers</span><span class="p">[</span><span class="n">middle</span><span class="p">]</span><span class="si">)</span><span class="s"> </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="n">numbers</span><span class="p">[</span><span class="n">middle</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">myFavourite</span> <span class="p">{</span>
+        <span class="bp">print</span><span class="p">(</span><span class="s">&#34;The middle index </span><span class="si">\(</span><span class="n">middle</span><span class="si">)</span><span class="s"> with value:  </span><span class="si">\(</span><span class="n">numbers</span><span class="p">[</span><span class="n">middle</span><span class="p">]</span><span class="si">)</span><span class="s"> is too small&#34;</span><span class="p">)</span>
+        <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Please update left to: </span><span class="si">\(</span><span class="n">middle</span> <span class="o">+</span> <span class="mi">1</span><span class="si">)</span><span class="s"> </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+        
+        <span class="kr">left</span> <span class="p">=</span> <span class="n">middle</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="bp">print</span><span class="p">(</span><span class="s">&#34;The middle index </span><span class="si">\(</span><span class="n">middle</span><span class="si">)</span><span class="s"> with value:  </span><span class="si">\(</span><span class="n">numbers</span><span class="p">[</span><span class="n">middle</span><span class="p">]</span><span class="si">)</span><span class="s"> is too large&#34;</span><span class="p">)</span>
+        <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Please update right to: </span><span class="si">\(</span><span class="n">middle</span> <span class="o">-</span> <span class="mi">1</span><span class="si">)</span><span class="s"> </span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+        
+        <span class="kr">right</span> <span class="p">=</span> <span class="n">middle</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>Outputs:</p>
+<pre tabindex="0"><code>The middle index 5 with value: 20 is too small
+Please update left to: 6
+The middle index 8 with value: 50 is too large 
+Please update right to: 7
+Found! Your favourite number at index: 6 with value: 30
+</code></pre><div class="details admonition tip open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>Tip<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Notice that <code>left</code> is now <code>6</code> and <code>right</code> is <code>7</code> and mid is now <code>(6 + 7) / 2</code>
+which is 6 <em>(integer division)</em>, and <code>6</code> is the correct index for our favourite number.</div>
+        </div>
+    </div>
+<p>Awesome! It only took <code>three (3)</code> lookups to finally located our favorite number.</p>
+<p>Now let&rsquo;s write a function combined with the power of swift features to write a
+clean version of a binary search algorithm.</p>
+<h4 id="the-binary-search-function">The Binary search function</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="c1">/// This binary search function will accept an array of items of type Int</span>
+<span class="c1">/// and also a search value, It will then search for the index of</span>
+<span class="c1">/// that value in the items and return the index if found or nill if not found</span>
+<span class="kd">func</span> <span class="nf">binarySearch</span><span class="p">(</span><span class="k">for</span> <span class="n">value</span><span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="k">in</span> <span class="n">items</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">])</span> <span class="p">-&gt;</span> <span class="nb">Int</span><span class="p">?</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nv">left</span> <span class="p">=</span> <span class="mi">0</span>
+    <span class="kd">var</span> <span class="nv">right</span> <span class="p">=</span> <span class="n">items</span><span class="p">.</span><span class="bp">count</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="kd">var</span> <span class="nv">mid</span> <span class="p">=</span> <span class="mi">0</span>
+   
+    <span class="k">while</span> <span class="kr">left</span> <span class="o">&lt;=</span> <span class="kr">right</span> <span class="p">{</span>
+        <span class="n">mid</span> <span class="p">=</span> <span class="p">(</span><span class="kr">left</span> <span class="o">+</span> <span class="kr">right</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        
+        <span class="k">if</span> <span class="n">items</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="p">==</span> <span class="n">value</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">mid</span>
+            
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="n">items</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">value</span> <span class="p">{</span>
+            <span class="kr">left</span> <span class="p">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span>
+            
+        <span class="p">}</span> <span class="k">else</span>  <span class="p">{</span>
+            <span class="kr">right</span> <span class="p">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div><h5 id="testing-the-function">Testing the function</h5>
+<p>Below we created a simple ordered <code>(sorted)</code> array to test the binary search function.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span> <span class="c1">//sorted</span>
+<span class="kd">let</span> <span class="nv">myFavourite</span> <span class="p">=</span> <span class="mi">30</span>
+
+<span class="k">if</span> <span class="kd">let</span> <span class="nv">index</span> <span class="p">=</span> <span class="n">binarySearch</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">myFavourite</span><span class="p">,</span> <span class="k">in</span><span class="p">:</span> <span class="n">numbers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Index Found: </span><span class="si">\(</span><span class="n">index</span><span class="si">)</span><span class="s">&#34;</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Your favourite number is: </span><span class="si">\(</span><span class="n">myFavourite</span><span class="si">)</span><span class="s"> not in the numbers&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nv">myFavouriteTwo</span> <span class="p">=</span> <span class="mi">14</span>
+<span class="k">if</span> <span class="kd">let</span> <span class="nv">index</span> <span class="p">=</span> <span class="n">binarySearch</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">myFavouriteTwo</span><span class="p">,</span> <span class="k">in</span><span class="p">:</span> <span class="n">numbers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Index Found: </span><span class="si">\(</span><span class="n">index</span><span class="si">)</span><span class="s">&#34;</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Your favourite number is: </span><span class="si">\(</span><span class="n">myFavouriteTwo</span><span class="si">)</span><span class="s"> not in the numbers&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>Outputs</p>
+<pre tabindex="0"><code>Index Found: 6
+Your favourite number: 14 is not in the numbers
+</code></pre><h2 id="conclusion">conclusion</h2>
+<p>We have successfully built a binary search function that can be used to search a light of <code>integers</code>
+I hope you enjoyed the reading. Report any typos or questions, and I will follow up!</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-01-01</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/posts/implementing-binary-search-in-swift/" data-title="Understanding and implementing binary search in swift" data-via="mindmansions" data-hashtags="Swift,Algorithms"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/posts/implementing-binary-search-in-swift/" data-hashtag="Swift"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/posts/implementing-binary-search-in-swift/" data-title="Understanding and implementing binary search in swift" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/posts/implementing-binary-search-in-swift/" data-title="Understanding and implementing binary search in swift"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/swift/">Swift</a>,&nbsp;<a href="/tags/algorithms/">Algorithms</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/posts/simple-swift-array-generator/" class="next" rel="next" title="How to quickly generate array in Swift">How to quickly generate array in Swift<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"><div style="font-size:17px; font-weight: 700">CodeByKelvin</div></div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="/" target="_blank">MindMansion Projects</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/mermaid/mermaid.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/mermaid/mermaid.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":30},"comment":{},"data":{"id-1":"  graph TD;\n    A[Array] --\u003e|Get middle| B(Value: 5)\n    B --\u003e C{\"numbers[5] == 30?\"}\n    C --\u003e|True| D[Return and finish]\n    C --\u003e|False| E{\"numbers[5] \u003c 30?\"}\n    E --\u003e|True| F(Update left to 6)\n    F --\u003e G[Repeat the process]"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
