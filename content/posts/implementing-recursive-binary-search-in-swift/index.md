@@ -38,7 +38,7 @@ computer memory gets overflowed, and you wouldn't want that.
 The example below is a simple recursive function that accepts a value `n` then calculates and return
 the `factorial` of that value `n` using the factorial formula:
 
-> **Recursive formula**
+> **Factorial formula**
 $$n! = n\sdot(n - 1)! \\ when \enspace n \eqslantgtr 1$$
 
 
