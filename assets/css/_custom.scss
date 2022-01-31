@@ -29,7 +29,7 @@ footer {
 }
 
 ::-webkit-scrollbar {
-  //background-color: $code-background-color!important;
+  background-color: $code-background-color!important;
   border-radius: 0 0 7px 7px;
   width: .4rem;
   height: .4rem;
@@ -49,6 +49,7 @@ footer {
   h2,
   h3,
   h4 {
+    margin-bottom: 0.7rem!important;
     margin-top: 2.5rem!important;
   }
 
@@ -83,6 +84,7 @@ p {
   code {
     background-color: transparent!important;
     font-weight: bold;
+    padding: 0!important;
   }
 }
 

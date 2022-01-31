@@ -66,7 +66,7 @@ if n <= 1 {
 The `n <= 1` is our kill Switch, the factorial of both `1 and 0` is `1`  and there is no reason to call the
 function body again. If we didn't implement the kill switch the function will keep calling itself forever
 even when `n` is no longer positive and this already defies the formula rule which states that `n` must
-be greater than 1.
+be greater than or equal to 1.
 
 ## Recursive binary search
 
