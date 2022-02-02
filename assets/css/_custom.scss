@@ -29,19 +29,12 @@ footer {
 }
 
 ::-webkit-scrollbar {
-  background-color: $code-background-color!important;
   border-radius: 0 0 7px 7px;
-  width: .4rem;
-  height: .4rem;
-
-  [theme=dark] & {
-    background-color: $code-background-color-dark!important;
-  }
-
+  width: .38rem;
+  height: .38rem;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: transparent;
   border-radius: 7px!important;
 }
 
@@ -122,6 +115,36 @@ p {
 
   }
 }
+
+.highlight {
+  .chroma {
+    .table-wrapper::-webkit-scrollbar {
+      background-color: $code-background-color!important;
+      border-radius: 0 0 7px 7px;
+      width: .4rem;
+      height: .4rem;
+
+      [theme=dark] & {
+        background-color: $code-background-color-dark!important;
+      }
+    }
+  }
+}
+
+
+.highlight {
+  .chroma {
+    .table-wrapper::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 7px !important;
+
+      &:hover {
+        background-color: $scrollbar-hover-color;
+      }
+    }
+  }
+}
+
 
 @media only screen and (max-width: 960px) {
   .header-wrapper {
